@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from app.models import *
+from django.db.models.functions import Length
 
 # Create your views here.
 def topic_model(request):
@@ -9,6 +10,14 @@ def topic_model(request):
 
 def webpage(request):
     WTO=Webpage.objects.all()
+    WTO=Webpage.objects.filter(topic_name='Cricket')
+    WTO=Webpage.objects.exclude(topic_name='Cricket')
+    WTO=Webpage.objects.all()[1:3:]
+    WTO=Webpage.objects.all().order_by('name')
+    WTO=Webpage.objects.filter(topic_name='Cricket').order_by('name')
+    WTO=Webpage.objects.filter(topic_name='Cricket').order_by('-name')
+    WTO=Webpage.objects.all().order_by(Length('name'))
+    WTO=Webpage.objects.all().order_by(Length('name').desc())
     d={'WTO':WTO}
     return render(request,'webpage.html',d)
 
